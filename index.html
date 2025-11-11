@@ -3,32 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WeatherNow</title>
+  <title>Atmofy | Real-Time Weather</title>
   <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
+  <div class="background" id="background">
+    <div class="overlay"></div>
+  </div>
+
   <div class="container">
     <header>
-      <h1>🌤️ WeatherNow</h1>
-      <p>Get real-time weather updates anywhere</p>
+      <h1>🌤️ Atmofy</h1>
+      <p>Instant Weather. Anywhere. Anytime.</p>
     </header>
 
     <div class="search-box">
       <input type="text" id="city-input" placeholder="Enter city name..." />
       <button id="search-btn">Search</button>
-      <button id="loc-btn">📍 Use My Location</button>
+      <button id="loc-btn">📍 Location</button>
     </div>
 
     <div class="weather-card hidden" id="weather-card">
-      <h2 id="city-name"></h2>
-      <img id="weather-icon" alt="Weather Icon" />
-      <p id="description"></p>
-      <p id="temp"></p>
-      <p id="humidity"></p>
-      <p id="wind"></p>
+      <div class="top">
+        <h2 id="city-name"></h2>
+        <img id="weather-icon" alt="Weather Icon" />
+      </div>
+      <div class="details">
+        <p id="description"></p>
+        <p id="temp"></p>
+        <p id="humidity"></p>
+        <p id="wind"></p>
+      </div>
     </div>
 
     <p class="error" id="error"></p>
+
+    <footer>
+      <p>☁️ Built with ❤️ using OpenWeatherMap API</p>
+    </footer>
   </div>
 
   <script src="scripts/app.js"></script>
