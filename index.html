@@ -1,45 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Atmofy | Real-Time Weather</title>
-  <link rel="stylesheet" href="styles/style.css" />
+    <meta charset="UTF-8">
+    <title>Atmofy Weather Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- MAIN STYLESHEET -->
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-  <div class="background" id="background">
-    <div class="overlay"></div>
-  </div>
-
-  <div class="container">
-    <header>
-      <h1>🌤️ Atmofy</h1>
-      <p>Instant Weather. Anywhere. Anytime.</p>
-    </header>
-
-    <div class="search-box">
-      <input type="text" id="city-input" placeholder="Enter city name..." />
-      <button id="search-btn">Search</button>
-      <button id="loc-btn"> Location</button>
+    <!-- HEADER + NAVBAR -->
+    <header class="top-header">
+    <div class="logo-area">
+        <span class="logo-text">Atmofy</span>
+        <span class="logo-tagline">Live Weather</span>
     </div>
 
-    <div class="weather-card hidden" id="weather-card">
-      <div class="top">
-        <h2 id="city-name"></h2>
-        <img id="weather-icon" alt="Weather Icon" />
-      </div>
-      <div class="details">
-        <p id="description"></p>
-        <p id="temp"></p>
-        <p id="humidity"></p>
-        <p id="wind"></p>
-      </div>
+    <!-- Simplified Nav -->
+    <nav class="main-nav">
+        <button class="nav-tab active" data-section="today-section">Today</button>
+        <button class="nav-tab" data-section="hourly-section">Hourly</button>
+        <button class="nav-tab" data-section="daily-section">Daily</button>
+    </nav>
+
+    <!-- More Dropdown -->
+    <div class="more-menu-wrapper">
+        <button id="more-btn" class="more-btn">More ▾</button>
+        <ul id="more-dropdown" class="more-dropdown hidden">
+            <li data-section="history-section">Search History</li>
+            <li data-section="feedback-section">Feedback</li>
+        </ul>
     </div>
+</header>
 
-    <p class="error" id="error"></p>
+    <!-- SEARCH BAR AREA -->
+    <section class="search-row">
+        <div class="search-controls">
+            <input type="text" id="city-input" placeholder="Enter city name e.g. Delhi">
+            <button id="search-btn">Search</button>
+            <button id="current-location-btn">Use My Location</button>
+        </div>
+        <div id="search-error" class="error-msg"></div>
+    </section>
 
-  </div>
+    <!-- MAIN DASHBOARD LAYOUT -->
+    <main class="dashboard">
+        <!-- LEFT PANEL: ALL SECTIONS -->
+        <section class="left-panel">
+            <!-- TODAY SECTION (DEFAULT VISIBLE) -->
+            <section id="today-section" class="content-section active">
+                <h2 class="section-title">Today</h2>
 
-  <script src="scripts/app.js"></script>
+                <!-- Location + Date -->
+                <div class="location-row">
+                    <div>
+                        <h3 id="location-name">–</h3>
+                        <p id="current-date">–</p>
+                    </div>
+                    <div id="local-time" class="local-time">–</div>
+                </div>
+
+                <!-- TODAY SUMMARY -->
+                <div class="card today-summary">
+                    <h3>Today's Summary</h3>
+                    <p id="today-summary-text">Search a city to see today's weather.</p>
+                    <div class="summary-grid">
+                        <div>
+                            <span class="label">High</span>
+                            <span id="today-high" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Low</span>
+                            <span id="today-low" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Day</span>
+                            <span id="today-day-desc" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Night</span>
+                            <span id="today-night-desc" class="value">–</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CURRENT WEATHER BLOCK -->
+                <div class="card current-weather">
+                    <div class="current-main">
+                        <div class="current-temp">
+                            <img id="current-icon" src="" alt="" class="weather-icon">
+                            <span id="current-temp" class="temp-value">–°</span>
+                        </div>
+                        <div class="current-basic">
+                            <div id="current-description" class="current-desc">–</div>
+                            <div id="current-realfeel" class="current-feel">RealFeel: –</div>
+                        </div>
+                    </div>
+                    <div class="current-extra">
+                        <div>
+                            <span class="label">Clouds</span>
+                            <span id="current-clouds" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Wind</span>
+                            <span id="current-wind" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Humidity</span>
+                            <span id="current-humidity" class="value">–</span>
+                        </div>
+                        <div>
+                            <span class="label">Air Quality</span>
+                            <span id="current-aqi" class="value">–</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MINI HOURLY PREVIEW INSIDE TODAY -->
+                <div class="card">
+                    <h3>Next Hours</h3>
+                    <div id="today-hourly-preview" class="hourly-strip"></div>
+                </div>
+            </section>
+
+            <!-- HOURLY SECTION -->
+            <section id="hourly-section" class="content-section">
+                <h2 class="section-title">Hourly Forecast</h2>
+                <div class="card">
+                    <div id="hourly-container" class="hourly-strip"></div>
+                </div>
+            </section>
+
+            <!-- DAILY SECTION -->
+            <section id="daily-section" class="content-section">
+                <h2 class="section-title">Daily Forecast</h2>
+                <div id="daily-container" class="card-list"></div>
+            </section>
+
+            <!-- RADAR SECTION (PLACEHOLDER, STILL A TAB) -->
+            <section id="radar-section" class="content-section">
+                <h2 class="section-title">Radar</h2>
+                <div class="card">
+                    <p>Radar view is not implemented yet. You can embed a map or radar image here later.</p>
+                </div>
+            </section>
+
+            <!-- MINUTECAST SECTION (PLACEHOLDER) -->
+            <section id="minutecast-section" class="content-section">
+                <h2 class="section-title">Minutecast</h2>
+                <div class="card">
+                    <p>Short-term minute-by-minute forecast can be shown here in the future.</p>
+                </div>
+            </section>
+
+            <!-- MONTHLY SECTION (PLACEHOLDER) -->
+            <section id="monthly-section" class="content-section">
+                <h2 class="section-title">Monthly Overview</h2>
+                <div class="card">
+                    <p>Monthly trend charts can be added here later using the same data.</p>
+                </div>
+            </section>
+
+            <!-- AIR QUALITY SECTION -->
+            <section id="airquality-section" class="content-section">
+                <h2 class="section-title">Air Quality Details</h2>
+                <div id="airquality-details" class="card">
+                    <p>Search a city to view detailed air quality components.</p>
+                </div>
+            </section>
+
+            <!-- HEALTH & ACTIVITIES SECTION (SIMPLE SUGGESTIONS) -->
+            <section id="health-section" class="content-section">
+                <h2 class="section-title">Health & Activities</h2>
+                <div id="health-content" class="card">
+                    <p>Health recommendations will appear here based on temperature and air quality.</p>
+                </div>
+            </section>
+
+            <!-- SEARCH HISTORY SECTION -->
+            <section id="history-section" class="content-section">
+                <h2 class="section-title">Search History</h2>
+                <div class="card">
+                    <p>Your last searched cities:</p>
+                    <div id="history-list" class="history-list"></div>
+                </div>
+            </section>
+
+            <!-- FEEDBACK SECTION -->
+            <section id="feedback-section" class="content-section">
+                <h2 class="section-title">Feedback</h2>
+                <div class="card">
+                    <form id="feedback-form" class="feedback-form">
+                        <label for="fb-name">Name</label>
+                        <input type="text" id="fb-name" required>
+
+                        <label for="fb-email">Email</label>
+                        <input type="email" id="fb-email" required>
+
+                        <label for="fb-message">Message</label>
+                        <textarea id="fb-message" rows="4" required></textarea>
+
+                        <button type="submit">Submit Feedback</button>
+                    </form>
+                    <div id="feedback-success" class="success-msg"></div>
+                </div>
+            </section>
+        </section>
+
+        <!-- RIGHT PANEL: WEATHER NEWS -->
+        <aside class="right-panel">
+            <h2 class="section-title">Weather News</h2>
+            <div id="news-container" class="news-list">
+                <!-- News cards inserted here by JS -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- MAIN SCRIPT -->
+    <script src="scripts/app.js" defer></script>
 </body>
 </html>
